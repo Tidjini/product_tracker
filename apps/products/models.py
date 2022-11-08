@@ -11,6 +11,10 @@ class Product(models.Model):
     valeur_initial = models.DecimalField(max_digits=30, decimal_places=3)
     valeur_actuel = models.DecimalField(max_digits=30, decimal_places=3)
 
+    class Meta:
+        pass
+        # ordering = ("-qte_stock", "-valeur_initial")
+
 
 class Movement(models.Model):
 
@@ -21,3 +25,6 @@ class Movement(models.Model):
     value = models.DecimalField(max_digits=30, decimal_places=3)
     created_at = models.DateTimeField(auto_now_add=True)
     in_out = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ("-created_at", "-in_out", "qte")
