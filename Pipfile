@@ -6,6 +6,16 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-
+asgiref = "*"
+dj-database-url= "*"
+django="*"
+django-heroku="*"
+djangorestframework="*"
+gunicorn="*"
+psycopg2="*"
+pytz="*"
+sqlparse="*"
+typing-extensions="*"
+whitenoise="*"
 [requires]
 python_version = "3.7"

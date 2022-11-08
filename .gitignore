@@ -110,3 +110,5 @@ static_collected
 .vscode
 config/settings/production.py
 db.sqlite3
+
+Pipfile
