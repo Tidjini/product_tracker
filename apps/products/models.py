@@ -2,11 +2,11 @@ from pathlib import Path
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.files.storage import FileSystemStorage
+from .storage import OverwriteStorage
 
 # Create your models here.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-fs = FileSystemStorage(location=BASE_DIR / "media")
+fs = OverwriteStorage(location=BASE_DIR / "media")
 
 
 class Product(models.Model):
