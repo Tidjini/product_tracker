@@ -109,6 +109,7 @@ static_collected
 # Exclude machine-specific vs code settings
 .vscode
 config/settings/production.py
+staticfiles
 # db.sqlite3
 
 # Pipfile
