@@ -11,13 +11,15 @@ class Product(models.Model):
     designation = models.CharField(max_length=100)
     qte_stock = models.DecimalField(max_digits=30, decimal_places=3)
     value = models.DecimalField(max_digits=30, decimal_places=3)
+    qte_picture = models.FileField(blank=True, null=True, max_length=1024)
+    value_picture = models.FileField(blank=True, null=True, max_length=1024)
+    update_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.designation
 
     class Meta:
-        pass
-        # ordering = ("-qte_stock", "-valeur_initial")
+        ordering = ("-update_at", "-value", "-qte_stock")
 
 
 class Movement(models.Model):
