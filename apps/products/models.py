@@ -1,8 +1,12 @@
+from pathlib import Path
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.files.storage import FileSystemStorage
 
 # Create your models here.
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+fs = FileSystemStorage(location=BASE_DIR / "media")
 
 
 class Product(models.Model):
@@ -11,8 +15,8 @@ class Product(models.Model):
     designation = models.CharField(max_length=100)
     qte_stock = models.DecimalField(max_digits=30, decimal_places=3)
     value = models.DecimalField(max_digits=30, decimal_places=3)
-    qte_picture = models.FileField(blank=True, null=True, max_length=1024)
-    value_picture = models.FileField(blank=True, null=True, max_length=1024)
+    qte_picture = models.FileField(blank=True, null=True, max_length=1024, storage=fs)
+    value_picture = models.FileField(blank=True, null=True, max_length=1024, storage=fs)
     update_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):

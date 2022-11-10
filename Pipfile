@@ -9,6 +9,7 @@ verify_ssl = true
 asgiref = "*"
 dj-database-url= "*"
 django="*"
+django-cors-headers="*"
 django-heroku="*"
 djangorestframework="*"
 gunicorn="*"
