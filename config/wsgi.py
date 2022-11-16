@@ -9,8 +9,26 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/
 
 import os
 
+# import asyncio
+# import threading
+
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+# from apps.core import client
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 application = get_wsgi_application()
+
+
+# some = threading.Event()
+
+
+# def run_socket():
+#     asyncio.run(client.main())
+#     some.set()
+
+
+# run_socket()
+# # t = Thread(target=run_socket)
+# # t.run()

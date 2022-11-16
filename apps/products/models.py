@@ -31,4 +31,4 @@ class Product(models.Model):
 @receiver(post_save, sender=Product)
 def notify(instance, created, **kwargs):
     data = {"this": "is", "me": "from"}
-    NotificationAPI.push(url=constants.NOTIFICATION_API, data=data)
+    NotificationAPI.push(url=constants.NOTIFICATION_PUSH_END, data=data)

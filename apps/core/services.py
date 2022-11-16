@@ -3,6 +3,13 @@ import requests
 
 
 class NotificationAPI:
+    """Notification
+
+    make sure to make it litle bit complet:
+        - like users token creadential
+        - context ...
+    """
+
     @staticmethod
     def push(url, data):
         """Push notification post data to remote service.
