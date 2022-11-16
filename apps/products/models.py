@@ -1,5 +1,10 @@
 from pathlib import Path
 from django.db import models
+from django.dispatch.dispatcher import receiver
+from django.db.models.signals import post_save
+
+from apps.core import constants
+from apps.core.services import NotificationAPI
 from .storage import OverwriteStorage
 
 # Create your models here.
@@ -21,3 +26,9 @@ class Product(models.Model):
 
     class Meta:
         ordering = ("-update_at", "-value", "-qte_stock")
+
+
+@receiver(post_save, sender=Product)
+def notify(instance, created, **kwargs):
+    data = {"this": "is", "me": "from"}
+    NotificationAPI.push(url=constants.NOTIFICATION_API, data=data)

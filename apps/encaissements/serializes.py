@@ -1,5 +1,9 @@
-# from rest_framework import serializers
+from rest_framework import serializers
 
-# from .models import Encaissement
+from .models import Encaissement
 
-# class EncaissementSerializer(se)
+
+class EncaissementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Encaissement
+        fields = "__all__"
