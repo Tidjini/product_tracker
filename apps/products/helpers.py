@@ -15,6 +15,6 @@ def built_data(product, message, send_date):
 
 def creation_message(product, date_time):
     """Custom creation message, will do for updates also"""
-    return f"""Un produit a été mis a jours {product.reference}. avec qte: {product.tonne}
+    return f"""{product.designation} a était mis a jours {product.reference}. avec qte: {product.tonne}
         valeur: {product.value}, date/heure: {date_time:%d-%m-%Y} at {date_time:%H:%m}
         """

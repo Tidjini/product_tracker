@@ -66,7 +66,6 @@ def pre_notification(sender, instance, **kwargs):
     # if there is no difference, do nothing
     if old.qte_stock == instance.qte_stock and old.value == instance.value:
         return
-
     push_notification(instance)
 
 
