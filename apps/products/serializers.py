@@ -3,6 +3,9 @@ from apps.products.models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
+
+    tonne = serializers.ReadOnlyField()
+
     class Meta:
         model = Product
         fields = "__all__"

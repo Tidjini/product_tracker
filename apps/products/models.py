@@ -27,7 +27,7 @@ class Product(models.Model):
     def tonne(self):
         T, kg = divmod(self.qte_stock, 1000)
         if kg:
-            return "{} T and {} Kg".format(T, kg)
+            return "{} T and {:.2f} Kg".format(T, kg)
         return f"{T} T"
 
     def __str__(self):
