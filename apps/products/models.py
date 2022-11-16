@@ -2,7 +2,7 @@ from datetime import datetime
 from pathlib import Path
 from django.db import models
 from django.dispatch.dispatcher import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import pre_save, post_save
 
 from apps.core import constants
 from apps.core.services import NotificationAPI
@@ -37,11 +37,41 @@ class Product(models.Model):
         ordering = ("-update_at", "-value", "-qte_stock")
 
 
-@receiver(post_save, sender=Product)
-def send_notification(instance, created, **kwargs):
-    now = datetime.now()
+class ProductAPI:
+    @staticmethod
+    def get_item_by_id(reference):
+        try:
+            return Product.objects.get(reference=reference)
+        except Product.DoesNotExist:
+            return None
 
-    # if created:
-    message = helpers.creation_message(instance, now)
-    data = helpers.built_data(instance, message, now)
+
+@receiver(post_save, sender=Product)
+def post_notification(sender, instance, created, **kwargs):
+    if created:
+        push_notification(instance)
+
+
+@receiver(pre_save, sender=Product)
+def pre_notification(sender, instance, **kwargs):
+    # if new do nothing
+    if not instance.pk:
+        return
+
+    # get old version
+    old = ProductAPI.get_item_by_id(instance.pk)
+    if not old:
+        return
+
+    # if there is no difference, do nothing
+    if old.qte_stock == instance.qte_stock and old.value == instance.value:
+        return
+
+    push_notification(instance)
+
+
+def push_notification(product):
+    now = datetime.now()
+    message = helpers.creation_message(product, now)
+    data = helpers.built_data(product, message, now)
     NotificationAPI.push(constants.NOTIFICATION_PUSH_END, data=data)
