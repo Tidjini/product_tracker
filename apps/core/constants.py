@@ -7,5 +7,5 @@ if env == "development":
     NOTIFICATION_LISTENER = "http://localhost:7777/"
 
 else:
-    NOTIFICATION_PUSH_END = "https://eassalnotif.herokuapp.com//notify/"
+    NOTIFICATION_PUSH_END = "https://eassalnotif.herokuapp.com/notify/"
     NOTIFICATION_LISTENER = "https://eassalnotif.herokuapp.com/"
