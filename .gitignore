@@ -112,4 +112,4 @@ static_collected
 staticfiles
 db.local.sqlite3
 
-Pipfile
+# Pipfile
