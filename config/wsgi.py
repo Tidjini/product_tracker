@@ -27,7 +27,7 @@ application = get_wsgi_application()
 
 # def run_socket():
 #     some.set()
-asyncio.run(client.main())
+# asyncio.run(client.main())
 
 
 # run_socket()
