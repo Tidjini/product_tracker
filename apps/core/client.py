@@ -45,7 +45,12 @@ async def connect():
 @sio.event
 async def my_message(data):
     print("message received with ", data)
-    await sio.emit("my response", {"response": "my response"})
+    # await sio.emit("", {"response": "my response"})
+
+
+@sio.on("context")
+def on_message(data):
+    print("I received a message! on on_message with context", str(data))
 
 
 @sio.event
@@ -54,7 +59,7 @@ async def disconnect():
 
 
 async def main():
-    await sio.connect(NOTIFICATION_LISTENER)
+    await sio.connect("https://eassalnotif.herokuapp.com/")
     await sio.wait()
 
 

@@ -18,8 +18,11 @@ class Encaissement(models.Model):
 
     @property
     def growth_loss(self):
-        if self.previous_value == 0:
+        if not self.previous_value:
             return 100
+
+        if not self.value and not self.previous_value:
+            return 0
 
         diff = self.value - self.previous_value
         percent, _ = divmod(diff * 100, self.previous_value + diff)
