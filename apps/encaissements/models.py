@@ -15,6 +15,7 @@ class Encaissement(models.Model):
     date_range = models.CharField(max_length=50, null=True)
     value = models.DecimalField(max_digits=30, decimal_places=3)
     previous_value = models.DecimalField(max_digits=30, decimal_places=3)
+    update_at = models.DateTimeField(auto_now=True)
 
     @property
     def growth_loss(self):
