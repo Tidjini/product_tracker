@@ -26,11 +26,11 @@ class Encaissement(models.Model):
             return 0
 
         diff = self.value - self.previous_value
-        percent = 0
+        percent = 100
         try:
             percent, _ = divmod(diff * 100, self.previous_value + diff)
         except:
-            percent = 0
+            percent = 100
         return percent
 
 
