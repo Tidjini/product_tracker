@@ -16,33 +16,34 @@ BASE_DIR = Path(__file__).parent.parent.parent.parent
 fs = OverwriteStorage(location=BASE_DIR / "media")
 
 
-class FactureCharge(models.Model):
+class DemandeAchat(models.Model):
 
     ENTITY = ("P", "PROMAG"), ("INF", "INFRABITUM")
 
     number = models.CharField(max_length=15, null=True)
-    designation = models.CharField(max_length=100, null=True)
     entity = models.CharField(max_length=5, choices=ENTITY, default="INF")
+    designation = models.CharField(max_length=100, null=True)
     remarque = models.CharField(max_length=255, null=True)
+    montant = models.DecimalField(max_digits=30, decimal_places=3, default=0)
+
     date = models.DateField(null=True)
     sender = models.CharField(max_length=15, null=True)
     update_at = models.DateField(auto_now=True)
     confirm = models.BooleanField()
     picture = models.FileField(blank=True, null=True, max_length=1024)
-    montant = models.DecimalField(max_digits=30, decimal_places=3, default=0)
 
 
-@receiver(post_save, sender=FactureCharge)
+@receiver(post_save, sender=DemandeAchat)
 def after_save(sender, instance, created, **kwargs):
     push_notification(instance)
 
 
-def push_notification(facture):
+def push_notification(demande):
     now = datetime.now()
     data = {
         "date": now,
-        "message": f"""{facture.number} a était mis à jours. date {now:%d-%m-%Y} at:{now:%H:%M}""",
-        "sender": facture.sender,
-        "context": "FACTURE",
+        "message": f"""{demande.number} a était mis à jours. date {now:%d-%m-%Y} at:{now:%H:%M}""",
+        "sender": demande.sender,
+        "context": "DEMANDE",
     }
     NotificationAPI.push(NOTIFICATION_PUSH_END, data=data)
