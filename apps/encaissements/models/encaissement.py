@@ -1,4 +1,6 @@
 from datetime import datetime
+from pathlib import Path
+
 from django.db import models
 from django.db.models.signals import post_save, pre_save
 from django.dispatch.dispatcher import receiver
@@ -6,6 +8,12 @@ from django.dispatch.dispatcher import receiver
 
 from apps.core import constants
 from apps.core.services import NotificationAPI
+
+from ..storage import OverwriteStorage
+
+
+BASE_DIR = Path(__file__).parent.parent.parent.parent
+fs = OverwriteStorage(location=BASE_DIR / "media")
 
 
 class Encaissement(models.Model):
@@ -16,6 +24,7 @@ class Encaissement(models.Model):
     value = models.DecimalField(max_digits=30, decimal_places=3)
     previous_value = models.DecimalField(max_digits=30, decimal_places=3)
     update_at = models.DateTimeField(auto_now=True)
+    picture = models.FileField(blank=True, null=True, max_length=1024)
 
     @property
     def growth_loss(self):
@@ -73,5 +82,6 @@ def push_notification(encaissement):
     data = {
         "date": now,
         "message": f"""{encaissement.reference} a était mis à jours. date {now:%d-%m-%Y} at:{now:%H:%M}""",
+        "context": "ENCAISSEMENT",
     }
     NotificationAPI.push(constants.NOTIFICATION_PUSH_END, data=data)

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Encaissement
+from .models import Encaissement, FactureCharge
 
 
 class EncaissementSerializer(serializers.ModelSerializer):
@@ -10,3 +10,10 @@ class EncaissementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Encaissement
         fields = "__all__"
+
+
+class FactureChargeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FactureCharge
+        fields = "__all__"
+        read_only_fileds = ("id",)
