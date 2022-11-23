@@ -37,8 +37,8 @@ class Product(models.Model):
             kg, T = math.modf(self.qte_stock)
             kg *= 1000
 
-        tonne = "{} T".format(int(T)) if T else ""
-        kilo = "{} Kg".format(int(kg)) if kg else ""
+        tonne = "{:,} T".format(int(T)).replace(",", " ") if T else ""
+        kilo = "{:,} Kg".format(int(kg)).replace(",", " ") if kg else ""
 
         return "{} {}".format(tonne, kilo)
 
