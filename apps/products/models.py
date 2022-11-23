@@ -1,9 +1,13 @@
 from datetime import datetime
 from pathlib import Path
+import math
+
+# django
 from django.db import models
 from django.dispatch.dispatcher import receiver
 from django.db.models.signals import pre_save, post_save
 
+# application
 from apps.core import constants
 from apps.core.services import NotificationAPI
 from .storage import OverwriteStorage
@@ -16,19 +20,27 @@ fs = OverwriteStorage(location=BASE_DIR / "media")
 
 class Product(models.Model):
 
+    UNITES = ("t", "Tonne"), ("kg", "Kg")
     reference = models.CharField(max_length=10, primary_key=True)
     designation = models.CharField(max_length=100)
     qte_stock = models.DecimalField(max_digits=30, decimal_places=3)
     value = models.DecimalField(max_digits=30, decimal_places=3)
     picture = models.FileField(blank=True, null=True, max_length=1024, storage=fs)
     update_at = models.DateTimeField(auto_now=True, null=True)
+    unite = models.CharField(max_length=2, choices=UNITES, default="t")
 
     @property
     def tonne(self):
-        T, kg = divmod(self.qte_stock, 1000)
-        if kg:
-            return "{} T and {:.2f} Kg".format(T, kg)
-        return f"{T} T"
+        if self.unite == "kg":
+            T, kg = divmod(self.qte_stock, 1000)
+        else:
+            kg, T = math.modf(self.qte_stock)
+            kg *= 1000
+
+        tonne = "{} T".format(int(T)) if T else ""
+        kilo = "{} Kg".format(int(kg)) if kg else ""
+
+        return "{} {}".format(tonne, kilo)
 
     def __str__(self):
         return self.designation
