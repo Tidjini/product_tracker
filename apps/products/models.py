@@ -40,7 +40,7 @@ class Product(models.Model):
         tonne = "{:,} T".format(int(T)).replace(",", " ") if T else ""
         kilo = "{:,} Kg".format(int(kg)).replace(",", " ") if kg else ""
 
-        return "{} {}".format(tonne, kilo)
+        return "{} / {}".format(tonne, kilo)
 
     def __str__(self):
         return self.designation
